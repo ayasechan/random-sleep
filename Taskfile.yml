@@ -1,0 +1,39 @@
+# https://taskfile.dev
+
+version: '3'
+
+dotenv: ['.env']
+
+vars:
+  output: dist
+  commit:
+    sh: git rev-parse --short HEAD || echo 0
+  version:
+    sh: git tag -l --points-at HEAD || echo 0
+  args:
+    -trimpath
+    --ldflags="-w -s -X main.Version={{.version}}"
+    -o {{.output}}
+
+tasks:
+  default:
+    cmds:
+      - go run . -max 100s -min 10
+  
+  build:
+    - rm -rf {{.output}}
+    - mkdir -p {{.output}}
+    - go build -o {{.output}} .
+
+  release:
+    cmds:
+      - rm -rf {{.output}}
+      - mkdir -p {{.output}}
+      - |
+        {{range list "linux" "windows"}}
+        GOOS={{.}} go build {{$.args}} .
+        {{- end}}
+
+  tidy:
+    cmds:
+      - go mod tidy
