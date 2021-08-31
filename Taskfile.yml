@@ -41,7 +41,7 @@ tasks:
 
   install:
     cmds:
-      - cp {{.output}}/rsleep $GOPATH/bin
+      - cp -f {{.output}}/rsleep $GOPATH/bin
 
   uninstall:
     cmds:
