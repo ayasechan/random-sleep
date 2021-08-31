@@ -22,6 +22,7 @@ func main() {
 		os.Exit(1)
 	}
 	exitCode := 0
+	rand.Seed(time.Now().UnixNano())
 	if rand.Intn(100+1) < *isRaiseErr {
 		exitCode = 1
 	}
