@@ -32,7 +32,8 @@ tasks:
       - |
         {{range list "linux" "windows"}}
         GOOS={{.}} go build {{$.args}} .
-        {{- end}}
+        zip -0jq dist/rsleep-{{.}}-64.zip dist/rsleep{{if eq . "windows"}}.exe{{end}}
+        {{- end -}}
 
   tidy:
     cmds:
