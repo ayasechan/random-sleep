@@ -46,3 +46,7 @@ tasks:
   uninstall:
     cmds:
       - rm -f $GOPATH/bin/rsleep
+
+  clean:
+    cmds:
+      - rm -rf {{.output}}
