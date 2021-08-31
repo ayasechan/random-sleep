@@ -32,9 +32,17 @@ tasks:
       - |
         {{range list "linux" "windows"}}
         GOOS={{.}} go build {{$.args}} .
-        zip -0jq dist/rsleep-{{.}}-64.zip dist/rsleep{{if eq . "windows"}}.exe{{end}}
+        zip -0jq {{$.output}}/rsleep-{{.}}-64.zip {{$.output}}/rsleep{{if eq . "windows"}}.exe{{end}}
         {{- end -}}
 
   tidy:
     cmds:
       - go mod tidy
+
+  install:
+    cmds:
+      - cp {{.output}}/rsleep $GOPATH/bin
+
+  uninstall:
+    cmds:
+      - rm -f $GOPATH/bin/rsleep
