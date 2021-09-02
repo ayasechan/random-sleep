@@ -23,7 +23,7 @@ func main() {
 	}
 	exitCode := 0
 	rand.Seed(time.Now().UnixNano())
-	if rand.Intn(100+1) < *isRaiseErr {
+	if rand.Intn(100) < *isRaiseErr {
 		exitCode = 1
 	}
 	duration := GetRandomDuration(*maxSleep, *minSleep)
