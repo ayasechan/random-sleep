@@ -41,7 +41,7 @@ func GetRandomDuration(max, min time.Duration) time.Duration {
 	if max < min {
 		max, min = min, max
 	}
-	maxSeconds := int(max.Seconds())
+	maxSeconds := int(max.Seconds()) + 1
 	minSeconds := int(min.Seconds())
 	rand.Seed(time.Now().UnixNano())
 	randomSeconds := rand.Intn(maxSeconds-minSeconds) + minSeconds
