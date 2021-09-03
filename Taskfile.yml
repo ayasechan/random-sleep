@@ -37,8 +37,8 @@ tasks:
       - rm -rf {{.output}}
       - mkdir -p {{.output}}
       - |-
-        {{range $_, $os := list "linux" "windows" }}
-        {{- range list "amd64" "arm"}}
+        {{range $_, $os := list "linux" "darwin" "windows" }}
+        {{- range list "amd64" "arm64"}}
 
         GOOS={{$os}} GOARCH={{.}} go build {{$.args}} .
         {{- $ext := (ternary ".exe" "" (eq $os "windows")) }}
@@ -66,19 +66,15 @@ tasks:
   install:
     desc: install project
     cmds:
-      - cp -f {{.output}}/{{$stem}}{{exeExt}} $GOPATH/bin
+      - cp -f {{.output}}/{{.stem}}{{exeExt}} $GOPATH/bin
 
   uninstall:
     desc: uninstall project
     cmds:
-      - rm -f $GOPATH/bin/{{$stem}}{{exeExt}}
+      - rm -f $GOPATH/bin/{{.stem}}{{exeExt}}
 
   clean: 
     desc: delete cache files
     cmds:
       - rm -rf {{.output}}
       - rm -f *.log
-
-  post:
-    cmds:
-      - http post $LISTEN_ADDR/api/ero auth_key=$AUTH_KEY title="test" Level="debug" -v
